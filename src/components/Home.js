@@ -5,7 +5,14 @@ function Home() {
   const [loadding, setLodding] = useState(false);
   const [status, setStatus] = useState(false);
   const [copySuccess, setCopySuccess] = useState("");
+  const [error, setError] = useState("");
   const textAreaRef = useRef(null);
+
+  const handelChange = (e) => {
+    setLink(e.target.value);
+    setLodding(false);
+    setStatus(false);
+  };
 
   const handelSbmit = (e) => {
     e.preventDefault();
@@ -17,7 +24,14 @@ function Home() {
         setLodding(false);
         setStatus(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setError("Invalid link");
+        setLodding(false);
+        setStatus(false);
+        setTimeout(() => {
+          setError("");
+        }, 2000);
+      });
   };
 
   const copyToClipboard = (e) => {
@@ -34,12 +48,13 @@ function Home() {
     <div className="home">
       <div className="input">
         <h2>Shot Link Generate</h2>
+        {error && <h3 className="error">{error}</h3>}
         <form className="box" onSubmit={handelSbmit}>
           <input
             type="text"
             placeholder="Enter you link to make it short"
             value={link}
-            onChange={(e) => setLink(e.target.value)}
+            onChange={handelChange}
             ref={textAreaRef}
           />
 
@@ -50,8 +65,8 @@ function Home() {
           )}
 
           {!status && loadding && (
-            <button className="btn" type="submit">
-              loadding..
+            <button className="btn" disabled>
+              loading...
             </button>
           )}
 
@@ -61,7 +76,7 @@ function Home() {
             </button>
           )}
           {copySuccess && (
-            <button className="btn" type="submit" onClick={copyToClipboard}>
+            <button className="btn" disabled>
               Copied!
             </button>
           )}
