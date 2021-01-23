@@ -6,6 +6,11 @@ function Home() {
   const handelSbmit = (e) => {
     e.preventDefault();
     console.log(link);
+    fetch("https://api.shrtco.de/v2/shorten?url=" + link)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.result.short_link);
+      });
   };
   return (
     <div className="home">
