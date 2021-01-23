@@ -47,7 +47,7 @@ function Home() {
   return (
     <div className="home">
       <div className="input">
-        <h2>Shot Link Generate</h2>
+        <h2>Shot Link Generator</h2>
         {error && <h3 className="error">{error}</h3>}
         <form className="box" onSubmit={handelSbmit}>
           <input
